@@ -13,7 +13,7 @@ ctk.set_default_color_theme("blue")
 class GameBotUI(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Game Bot Control Center")
+        self.title("Wichelberg Center")
         self.geometry("700x950")
         
         self.sprint = SprintManager()
@@ -41,7 +41,7 @@ class GameBotUI(ctk.CTk):
         config = configparser.ConfigParser()
         config.read('config.ini')
 
-        ctk.CTkLabel(self, text="Wichelberg Game BOT", font=("Roboto", 24, "bold")).grid(row=0, column=0, pady=20)
+        ctk.CTkLabel(self, text="Wichelberg Center", font=("Roboto", 24, "bold")).grid(row=0, column=0, pady=20)
 
         # --- 1. MAX SPRINT (Tuş + Hold + Wait) ---
         s_frame = ctk.CTkFrame(self)
