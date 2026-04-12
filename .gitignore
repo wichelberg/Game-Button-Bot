@@ -1,0 +1,15 @@
+# Python gereksizleri
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller klasörleri
+build/
+dist/
+*.spec
+
+# EXE dosyaları
+*.exe
+
+# Yerel ayarlar (isteğe bağlı)
+config.ini
