@@ -1,2 +1,5 @@
 Latest versions can be downloaded from here
-[Download (v1.0.5)](https://github.com/wichelberg/Game-Button-Bot/releases/download/Final/WichelbergCenter.zip)
+
+Added a feature to edit the auto clicker
+
+[Download (v1.0.6)](https://github.com/wichelberg/Game-Button-Bot/releases/download/Final/WichelbergCenter.zip)
