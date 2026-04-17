@@ -16,29 +16,30 @@ class RandomClicker:
     def execute_click(self, target_str):
         target_str = target_str.lower()
         mouse_map = {'mouse1': Button.left, 'mouse2': Button.right, 'mouse3': Button.middle}
-        
         if target_str in mouse_map:
             self.mouse.click(mouse_map[target_str])
         else:
-            special = {'shift': Key.shift, 'space': Key.space, 'ctrl': Key.ctrl, 'alt': Key.alt, 'enter': Key.enter}
+            special = {'shift': Key.shift, 'space': Key.space, 'ctrl': Key.ctrl, 'alt': Key.alt}
             target = special.get(target_str, target_str)
-            self.keyboard.press(target)
-            time.sleep(0.02)
-            self.keyboard.release(target)
+            try:
+                self.keyboard.press(target)
+                time.sleep(0.02)
+                self.keyboard.release(target)
+            except: pass
 
     def _loop(self):
         config = configparser.ConfigParser()
         while self.running:
             config.read(self.config_path)
             cfg = config["RANDOM_CLICKER"]
-            
-            self.execute_click(cfg['target_key'])
-            
-            max_val = float(cfg['max_interval'])
-            wait_time = random.uniform(0.1, max_val)
+            min_v = float(cfg.get('min_interval', 1))
+            max_v = float(cfg.get('max_interval', 5))
+            if min_v >= max_v: break
+            self.execute_click(cfg.get('target_key', 'r'))
+            wait_time = random.uniform(min_v, max_v)
             stop_at = time.time() + wait_time
             while time.time() < stop_at and self.running:
-                time.sleep(0.01)
+                time.sleep(0.05)
 
     def start(self):
         if not self.running:

@@ -9,47 +9,36 @@ class AutoClicker:
         self.config_path = config_path
         self.section = section
         self.keyboard = KController()
-        self.mouse = MController() # Mouse kontrolcüsü eklendi
+        self.mouse = MController()
         self.running = False
         self._thread = None
 
     def execute_click(self, target_str):
         target_str = target_str.lower()
-        # Mouse tıkı kontrolü
-        mouse_map = {
-            'mouse1': Button.left,
-            'mouse2': Button.right,
-            'mouse3': Button.middle,
-            'mouse4': Button.x1,
-            'mouse5': Button.x2
-        }
-
+        mouse_map = {'mouse1': Button.left, 'mouse2': Button.right, 'mouse3': Button.middle, 'mouse4': Button.x1, 'mouse5': Button.x2}
+        
         if target_str in mouse_map:
             self.mouse.click(mouse_map[target_str])
         else:
-            # Klavye tuşu kontrolü
             special = {'shift': Key.shift, 'space': Key.space, 'ctrl': Key.ctrl, 'alt': Key.alt, 'enter': Key.enter}
             target = special.get(target_str, target_str)
-            
-            # F tuşları kontrolü
             if target_str.startswith('f') and target_str[1:].isdigit():
                 try: target = getattr(Key, target_str)
-                except AttributeError: pass
-
-            self.keyboard.press(target)
-            time.sleep(0.02)
-            self.keyboard.release(target)
+                except: pass
+            try:
+                self.keyboard.press(target)
+                time.sleep(0.02)
+                self.keyboard.release(target)
+            except: pass
 
     def _loop(self):
         config = configparser.ConfigParser()
         while self.running:
             config.read(self.config_path)
             if not config.has_section(self.section): break
-            
             cfg = config[self.section]
-            self.execute_click(cfg['target_key'])
-            
-            delay = float(cfg['delay'])
+            self.execute_click(cfg.get('target_key', 'q'))
+            delay = float(cfg.get('delay', 1.0))
             stop_time = time.time() + delay
             while time.time() < stop_time and self.running:
                 time.sleep(0.01)
